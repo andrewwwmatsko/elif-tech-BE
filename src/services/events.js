@@ -26,3 +26,8 @@ export const getAllEvents = async ({ page, perPage }) => {
     ...parsePaginationData,
   };
 };
+
+export const getEventById = async (eventId) => {
+  const event = await EventCollection.findById(eventId);
+  return event;
+};
