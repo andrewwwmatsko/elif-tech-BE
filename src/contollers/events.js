@@ -3,13 +3,17 @@ import createHttpError from 'http-errors';
 import { getAllEvents, getEventById } from '../services/events.js';
 
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getAllEventsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
 
   const events = await getAllEvents({
     page,
     perPage,
+    sortBy,
+    sortOrder,
   });
 
   res.json({

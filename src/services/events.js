@@ -1,15 +1,24 @@
+import { sortOrder } from '../constants/events.js';
 import { EventCollection } from '../db/models/event.js';
 
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllEvents = async ({ page, perPage }) => {
+export const getAllEvents = async ({
+  page = 1,
+  perPage = 12,
+  sortOrder = sortOrder[0],
+  sortBy = '_id',
+}) => {
   const skip = (page - 1) * perPage;
 
   const eventsQuery = EventCollection.find();
 
   const [eventsCount, events] = await Promise.all([
     EventCollection.find().merge(eventsQuery).countDocuments(),
-    eventsQuery.skip(skip).limit(perPage),
+    eventsQuery
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder }),
   ]);
 
   const parsePaginationData = calculatePaginationData(

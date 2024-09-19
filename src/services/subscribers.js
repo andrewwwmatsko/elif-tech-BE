@@ -1,13 +1,12 @@
 import createHttpError from 'http-errors';
 import { SubscribersCollection } from '../db/models/subscriber.js';
 import { EventCollection } from '../db/models/event.js';
+import mongoose from 'mongoose';
 
 export const subscribe = async (payload) => {
   const { email, eventId } = payload;
-  console.log('subscribe ~ eventId:', eventId);
 
   const subscriber = await SubscribersCollection.findOne({ email, eventId });
-  console.log('subscribe ~ subscriber:', subscriber);
 
   if (subscriber) {
     throw createHttpError(409, 'This email has already been registered.');
@@ -21,4 +20,14 @@ export const subscribe = async (payload) => {
   const newSubscriber = await SubscribersCollection.create(payload);
 
   return newSubscriber;
+};
+
+export const getEventParticipants = async (eventId) => {
+  const subscribers = await SubscribersCollection.find({ eventId });
+
+  if (subscribers.length < 1) {
+    throw createHttpError(404, 'There are no participants yet.');
+  }
+
+  return subscribers;
 };

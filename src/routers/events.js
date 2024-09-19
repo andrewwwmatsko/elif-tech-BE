@@ -4,7 +4,10 @@ import {
   getAllEventsController,
   getEventByIdController,
 } from '../contollers/events.js';
-import { signUpSubscriberController } from '../contollers/subscribers.js';
+import {
+  getEventParticipantsControlller,
+  signUpSubscriberController,
+} from '../contollers/subscribers.js';
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
@@ -16,6 +19,11 @@ const eventRouter = Router();
 eventRouter.get('/', ctrlWrapper(getAllEventsController));
 
 eventRouter.get('/:eventId', ctrlWrapper(getEventByIdController));
+
+eventRouter.get(
+  '/:eventId/participants',
+  ctrlWrapper(getEventParticipantsControlller),
+);
 
 eventRouter.post(
   '/:eventId',
