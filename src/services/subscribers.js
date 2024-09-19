@@ -4,8 +4,10 @@ import { EventCollection } from '../db/models/event.js';
 
 export const subscribe = async (payload) => {
   const { email, eventId } = payload;
+  console.log('subscribe ~ eventId:', eventId);
 
-  const subscriber = await SubscribersCollection.findOne({ email });
+  const subscriber = await SubscribersCollection.findOne({ email, eventId });
+  console.log('subscribe ~ subscriber:', subscriber);
 
   if (subscriber) {
     throw createHttpError(409, 'This email has already been registered.');
