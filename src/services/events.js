@@ -40,3 +40,37 @@ export const getEventById = async (eventId) => {
   const event = await EventCollection.findById(eventId);
   return event;
 };
+
+export const getEventByName = async ({
+  title,
+  page = 1,
+  perPage = 12,
+  sortOrder = sortOrder[0],
+  sortBy = '_id',
+}) => {
+  const skip = (page - 1) * perPage;
+
+  const eventsQuery = EventCollection.find();
+
+  const [eventsCount, events] = await Promise.all([
+    EventCollection.find(title).merge(eventsQuery).countDocuments(),
+    eventsQuery
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder }),
+  ]);
+
+  const parsePaginationData = calculatePaginationData(
+    eventsCount,
+    page,
+    perPage,
+  );
+
+  return {
+    data: events,
+    page,
+    perPage,
+    totalItems: eventsCount,
+    ...parsePaginationData,
+  };
+};

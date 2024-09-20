@@ -3,6 +3,7 @@ import { Router } from 'express';
 import {
   getAllEventsController,
   getEventByIdController,
+  getEventByNameController,
 } from '../contollers/events.js';
 import {
   getEventParticipantsControlller,
@@ -33,6 +34,12 @@ eventRouter.post(
   isValidId,
   validateBody(subscriberValidation),
   ctrlWrapper(signUpSubscriberController),
+);
+
+eventRouter.post(
+  '/',
+  // validateBody(subscriberValidation),
+  ctrlWrapper(getEventByNameController),
 );
 
 export default eventRouter;
