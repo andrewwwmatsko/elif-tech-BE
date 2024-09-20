@@ -33,7 +33,7 @@ export const getEventByIdController = async (req, res) => {
   const event = await getEventById(eventId);
 
   if (!event) {
-    throw createHttpError(404, `Movie with id=${eventId} not found`);
+    throw createHttpError(404, `Event with id=${eventId} not found`);
   }
 
   res.json({

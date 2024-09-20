@@ -1,9 +1,16 @@
+import { getEventById } from '../services/events.js';
 import { subscribe } from '../services/subscribers.js';
 
 import { getEventParticipants } from '../services/subscribers.js';
 
 export const signUpSubscriberController = async (req, res) => {
   const { eventId } = req.params;
+
+  const event = await getEventById(eventId);
+
+  if (!event) {
+    throw createHttpError(404, `Event with id=${eventId} not found`);
+  }
 
   const subscriber = await subscribe({ ...req.body, eventId });
 
@@ -16,6 +23,12 @@ export const signUpSubscriberController = async (req, res) => {
 
 export const getEventParticipantsControlller = async (req, res) => {
   const { eventId } = req.params;
+
+  const event = await getEventById(eventId);
+
+  if (!event) {
+    throw createHttpError(404, `Event with id=${eventId} not found`);
+  }
 
   const participants = await getEventParticipants(eventId);
 
