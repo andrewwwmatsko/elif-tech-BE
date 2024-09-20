@@ -32,6 +32,10 @@ export const getEventByIdController = async (req, res) => {
 
   const event = await getEventById(eventId);
 
+  if (!event) {
+    throw createHttpError(404, `Movie with id=${eventId} not found`);
+  }
+
   res.json({
     status: 200,
     message: 'The event was successfully found!',
@@ -50,6 +54,13 @@ export const getEventByNameController = async (req, res) => {
     sortBy,
     sortOrder,
   });
+
+  if (events.data.length < 1) {
+    res.json({
+      status: 404,
+      message: 'There are no such events',
+    });
+  }
 
   res.json({
     status: 200,
