@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { getEventById } from '../services/events.js';
 import { subscribe } from '../services/subscribers.js';
 
