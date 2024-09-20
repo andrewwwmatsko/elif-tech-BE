@@ -43,7 +43,7 @@ export const getEventByNameController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
-  const event = await getEventByName({
+  const events = await getEventByName({
     title: req.body,
     page,
     perPage,
@@ -53,7 +53,7 @@ export const getEventByNameController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: 'The event was successfully found!',
-    data: event,
+    message: 'The events was successfully found!',
+    data: events,
   });
 };

@@ -50,10 +50,10 @@ export const getEventByName = async ({
 }) => {
   const skip = (page - 1) * perPage;
 
-  const eventsQuery = EventCollection.find();
+  const eventsQuery = EventCollection.find(title);
 
   const [eventsCount, events] = await Promise.all([
-    EventCollection.find(title).merge(eventsQuery).countDocuments(),
+    EventCollection.find().merge(eventsQuery).countDocuments(),
     eventsQuery
       .skip(skip)
       .limit(perPage)
