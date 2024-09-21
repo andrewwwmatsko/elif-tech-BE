@@ -49,8 +49,9 @@ export const getEventByName = async ({
   sortBy = '_id',
 }) => {
   const skip = (page - 1) * perPage;
+  const regExpTitle = new RegExp(title, 'i');
 
-  const eventsQuery = EventCollection.find(title);
+  const eventsQuery = EventCollection.find({ title: regExpTitle });
 
   const [eventsCount, events] = await Promise.all([
     EventCollection.find().merge(eventsQuery).countDocuments(),

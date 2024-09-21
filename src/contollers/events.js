@@ -47,8 +47,10 @@ export const getEventByNameController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
+  const { title } = req.body;
+
   const events = await getEventByName({
-    title: req.body,
+    title,
     page,
     perPage,
     sortBy,
