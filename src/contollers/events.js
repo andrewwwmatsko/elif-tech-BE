@@ -58,7 +58,7 @@ export const getEventByNameController = async (req, res) => {
   });
 
   if (events.data.length < 1) {
-    res.json({
+    res.status(404).json({
       status: 404,
       message: 'There are no such events',
     });
